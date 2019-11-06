@@ -1,43 +1,67 @@
-﻿@model IEnumerable<MT123123123.Models.Message>
+﻿@model ForumViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
+<div id="Ajax">
+    <h1>Index</h1>
 
-<h1>Index</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" method="post" data-ajax="true" data-ajax-method="POST" data-ajax-update="#Ajax">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Message.Name" class="control-label"></label>
+                    <input asp-for="Message.Name" class="form-control" />
+                    <span asp-validation-for="Message.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Message.Msg" class="control-label"></label>
+                    <input asp-for="Message.Msg" class="form-control" />
+                    <span asp-validation-for="Message.Msg" class="text-danger"></span>
+                </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Msg)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostedAt)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Msg)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostedAt)
-            </td>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Message.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Message.Msg)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Message.PostedAt)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MessageList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Msg)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PostedAt)
+                    </td>
 
-        </tr>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-    </tbody>
-</table>

@@ -21,7 +21,11 @@ namespace MT123123123.Controllers
         // GET: Forum
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Message.ToListAsync());
+            ForumViewModel fvm = new ForumViewModel()
+            {
+                MessageList = await _context.Message.ToListAsync()
+            };
+            return View(fvm);
         }
 
         // GET: Forum/Details/5
@@ -59,9 +63,21 @@ namespace MT123123123.Controllers
             {
                 _context.Add(message);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                ForumViewModel forumViewModel2 = new ForumViewModel
+                {
+                    
+                    MessageList = await _context.Message.ToListAsync()
+                };
+
+                return PartialView("Index", forumViewModel2);
             }
-            return View(message);
+            ForumViewModel forumViewModel = new ForumViewModel
+            {
+                Message = message,
+                MessageList = await _context.Message.ToListAsync()
+            };
+            return PartialView("Index",forumViewModel);
         }
 
         // GET: Forum/Edit/5
