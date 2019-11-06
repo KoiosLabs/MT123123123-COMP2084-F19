@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using MT123123123.Models;
 
 namespace MT123123123
 {
@@ -24,6 +26,9 @@ namespace MT123123123
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<MT123123123Context>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("MT123123123Context")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
